@@ -1,6 +1,14 @@
 # mc-shaders-helpers
 Some helper scripts or programs for shaders development.
 
+## Reminder for [scripts/](scripts)
+
+If there is a `requirements.txt` file in the same folder of the script, run:
+```
+pip install -r requirements.txt
+```
+to install dependencies.
+
 
 ## Template .lang File Generator
 
