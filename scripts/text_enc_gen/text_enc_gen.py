@@ -121,6 +121,8 @@ if args.output_charset_file == None and args.text == None:
 font_face = load_font(args.font)
 identifiers = read_charset(args.charset_file)
 
+# Hardcoded identifiers
+identifiers["#"] = "CHAR_HASH"
 identifiers[" "] = "CHAR_SPACE"
 
 if args.output_charset_file != None:

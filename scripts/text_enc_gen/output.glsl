@@ -91,4 +91,5 @@ const uvec3 CHAR_COMMA = uvec3(0x00000000, 0x01010100, 6);
 const uvec3 CHAR_DOT = uvec3(0x00000000, 0x01010000, 6);
 const uvec3 CHAR_SLASH = uvec3(0x02020100, 0x10080804, 1);
 const uvec3 CHAR_BACKSLASH = uvec3(0x08081000, 0x01020204, 1);
+const uvec3 CHAR_HASH = uvec3(0x1F0A0A00, 0x0A0A1F0A, 1);
 const uvec3 CHAR_SPACE = uvec3(0x00000000, 0x00000000, 8);

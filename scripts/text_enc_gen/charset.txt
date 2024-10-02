@@ -1,5 +1,6 @@
 # This is a comment
 # format: <char> [identifier]
+# HASH and SPACE hardcoded
 A
 B
 C
@@ -65,7 +66,6 @@ z
 _ UNDERSCORE
 ! EXCLAMATION
 " QUOTE
-# HASH
 $ DOLLAR
 % PERCENT
 & AMPERSAND
