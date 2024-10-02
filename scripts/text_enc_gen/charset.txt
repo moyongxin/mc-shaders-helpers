@@ -1,3 +1,5 @@
+# This is a comment
+# format: <char> [identifier]
 A
 B
 C

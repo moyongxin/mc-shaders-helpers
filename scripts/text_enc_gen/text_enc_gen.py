@@ -3,7 +3,9 @@ import freetype
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Generate text layout using FreeType.")
+    parser = argparse.ArgumentParser(
+        description="Generate text encodings using FreeType."
+    )
     parser.add_argument("font", type=str, help="Path to the font file")
     parser.add_argument(
         "--charset-file",
@@ -62,7 +64,7 @@ def encode_bitmap_to_uvec2(bitmap, horizontal_offset=0):
 
 
 def read_charset(file_path):
-    with open(file_path, "r") as f:
+    with open(file_path, "r", encoding="utf-8") as f:
         lines = f.read()
 
     lines = lines.split("\n")
@@ -87,7 +89,7 @@ def read_charset(file_path):
 
 
 def convert_charset_to_glsl_defs(identifiers, font_face, file_path):
-    with open(file_path, "w") as f:
+    with open(file_path, "w", encoding="utf-8") as f:
         for char, identifier in identifiers.items():
             bitmap, x_offset, y_offset = render_char(font_face, char)
 
@@ -96,14 +98,19 @@ def convert_charset_to_glsl_defs(identifiers, font_face, file_path):
             f.write(f"const uvec3 {identifier} = uvec3({uvec2_def}, {y_offset});\n")
 
 
-def render_text(font_face, text):
+def render_text(identifiers, font_face, text):
     pen = 0
+    defs = f"\n// Original Text: {text}\n"
+    defs += "const uvec2 text_encodings[] = {"
     for char in text:
-        # Load the glyph for the character
-        font_face.load_char(char, freetype.FT_LOAD_RENDER)
+        defs += f"{identifiers[char]},"
+        # Load the glyph for the character to calculate the horizontal offset
+        # Currently WIP
+        # font_face.load_char(char, freetype.FT_LOAD_RENDER)
+        # pen += font_face.glyph.advance.x // 64
 
-        print(font_face.glyph.bitmap.rows, font_face.glyph.bitmap.buffer)
-        pen += font_face.glyph.advance.x // 64
+    defs += "};\n"
+    return defs
 
 
 args = parse_args()
@@ -114,8 +121,10 @@ if args.output_charset_file == None and args.text == None:
 font_face = load_font(args.font)
 identifiers = read_charset(args.charset_file)
 
+identifiers[" "] = "CHAR_SPACE"
+
 if args.output_charset_file != None:
     convert_charset_to_glsl_defs(identifiers, font_face, args.output_charset_file)
 
 if args.text != None:
-    print(render_text(font_face, args.text))
+    print(render_text(identifiers, font_face, args.text))
