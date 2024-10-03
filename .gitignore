@@ -1,3 +1,10 @@
+# cmake
+build/
+compile_commands.json
+
+# vcpkg
+vcpkg_installed/
+
 # Font files
 *.otf
 *.ttf
