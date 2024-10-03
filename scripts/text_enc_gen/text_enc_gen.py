@@ -101,16 +101,19 @@ def convert_charset_to_glsl_defs(identifiers, font_face, file_path):
 def render_text(identifiers, font_face, text):
     pen = 0
     defs = f"\n// Original Text: {text}\n"
-    defs += "const uvec2 text_encodings[] = {"
+    defs += "const uvec3 text_encodings[] = {"
+    advances = "const int text_advances[] = {"
     for char in text:
         defs += f"{identifiers[char]},"
+        advances += f"{pen},"
         # Load the glyph for the character to calculate the horizontal offset
         # Currently WIP
-        # font_face.load_char(char, freetype.FT_LOAD_RENDER)
-        # pen += font_face.glyph.advance.x // 64
+        font_face.load_char(char, freetype.FT_LOAD_RENDER)
+        pen += font_face.glyph.advance.x // 64
 
     defs += "};\n"
-    return defs
+    advances += "};\n"
+    return defs + advances
 
 
 args = parse_args()
