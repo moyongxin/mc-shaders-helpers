@@ -15,6 +15,18 @@ function(add_app_with_base name sources)
     add_executable(${name} src/base_app.cpp ${sources})
     target_include_directories(${name} PRIVATE include ${Stb_INCLUDE_DIR})
     target_link_libraries(${name} PRIVATE fmt::fmt glad::glad ZLIB::ZLIB SDL2::SDL2main SDL2::SDL2)
+    install(TARGETS ${name} RUNTIME DESTINATION bin)
 endfunction(add_app_with_base name sources)
 
+add_executable(atlas_collapser src/atlas_collapser.cpp)
+target_include_directories(atlas_collapser PRIVATE ${Stb_INCLUDE_DIR})
+target_link_libraries(atlas_collapser PRIVATE fmt::fmt)
+install(TARGETS atlas_collapser RUNTIME DESTINATION bin)
+
 add_app_with_base(test src/test.cpp)
+
+install(IMPORTED_RUNTIME_ARTIFACTS SDL2::SDL2 fmt::fmt DESTINATION bin)
+install(DIRECTORY scripts DESTINATION .)
+
+set(CPACK_GENERATOR "ZIP")
+include(CPack)
